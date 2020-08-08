@@ -36,7 +36,7 @@ std::string base64::encode(const std::string& input_str) {
 
 		case 2:
 			ch = (input_str[i] >> 6) | rem;
-			rem = input_str[i] & 0x3F;				// 00xxxxxx
+			rem = input_str[i] & 0x3F;			// 00xxxxxx
 			break;
 		}
 		encoded += alph64[ch];
@@ -49,6 +49,7 @@ std::string base64::encode(const std::string& input_str) {
 }
 
 std::string base64::decode(const std::string& encoded) {
+	if (encoded.empty()) return "";
 	std::string decoded;
 	int k = 0;
 	char ch;	// current char
@@ -67,7 +68,7 @@ std::string base64::decode(const std::string& encoded) {
 
 		case 2:
 			ch = alph64_inv[encoded[i]] << 6;
-			rem = alph64_inv[encoded[i + 1]];				// 00xx xxxx
+			rem = alph64_inv[encoded[i + 1]];			// 00xx xxxx
 			i++;
 			break;
 		}
