@@ -19,24 +19,26 @@ std::string base64::encode(const std::string& input_str) {
 
 	char ch = 0;	// current 6-bit char
 	char rem = 0;	// 'remainder'
+	
+	using u8 = unsigned char;
 
 	std::string encoded;
 	for (int i = 0; i < input_str.size(); ++i) {
 		switch (i % 3) {
 		case 0:
 			if (i > 0) encoded += alph64[rem];
-			ch = (input_str[i] >> 2);
-			rem = (input_str[i] << 4) & 0x30;		// 00xx0000
+			ch = ((u8)input_str[i] >> 2);
+			rem = ((u8)input_str[i] << 4) & 0x30;		// 00xx0000
 			break;
 
 		case 1:
-			ch = (input_str[i] >> 4) | rem;
-			rem = (input_str[i] << 2) & 0x3C;		// 00xxxx00
+			ch = ((u8)input_str[i] >> 4) | rem;
+			rem = ((u8)input_str[i] << 2) & 0x3C;		// 00xxxx00
 			break;
 
 		case 2:
-			ch = (input_str[i] >> 6) | rem;
-			rem = input_str[i] & 0x3F;			// 00xxxxxx
+			ch = ((u8)input_str[i] >> 6) | rem;
+			rem = (u8)input_str[i] & 0x3F;			// 00xxxxxx
 			break;
 		}
 		encoded += alph64[ch];
